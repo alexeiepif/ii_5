@@ -31,7 +31,6 @@ class Tree:
         result = StringIO()
         if node.is_file():
             return ""
-        # Преобразуем итератор в список
         children = list(node.iterdir())
         children.sort()
         for i, child in enumerate(children):
@@ -59,7 +58,6 @@ class Tree:
     ) -> None:
         """Создаёт синтетическое дерево файлов."""
 
-        # Словарь для отслеживания содержимого файлов и добавления дубликатов
         content_pool = []
 
         def add_children(node: Path, current_depth: int, sw: bool = True) -> None:
@@ -72,13 +70,10 @@ class Tree:
                 else:
                     is_file = False
                 if is_file:
-                    # Создаём файл
                     if random.random() < duplicate_chance and content_pool and sw:
-                        # Создаём дубликат
                         content = random.choice(content_pool)
                         sw = False
                     else:
-                        # Создаём уникальное содержимое
                         content = self.generate_random_content()
                         content_pool.append(content)
 
@@ -93,13 +88,12 @@ class Tree:
                     child.mkdir()
                     self.dir_count += 1
 
-                if child.is_dir():  # Только для директорий продолжаем рекурсию
+                if child.is_dir():
                     add_children(child, current_depth + 1, sw)
 
         add_children(self.root, 0)
 
 
-# Пример использования
 if __name__ == "__main__":
     tree = Tree("root")
     print(tree)
