@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+from typing import Any, Generator, Optional
+
 from tree import Problem, iterative_deepening_search
 
 # Представьте себе систему управления доступом, где каждый пользователь представлен
@@ -11,25 +13,30 @@ from tree import Problem, iterative_deepening_search
 
 
 class BinaryTreeNode:
-    def __init__(self, value, left=None, right=None):
+    def __init__(
+        self,
+        value: int,
+        left: Optional["BinaryTreeNode"] = None,
+        right: Optional["BinaryTreeNode"] = None,
+    ) -> None:
         self.value = value
         self.left = left
         self.right = right
 
-    def add_children(self, left, right):
+    def add_children(self, left: "BinaryTreeNode", right: "BinaryTreeNode") -> None:
         self.left = left
         self.right = right
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"<{self.value}>"
 
 
 class UsersProblem(Problem):
-    def __init__(self, initial, goal):
+    def __init__(self, initial: BinaryTreeNode, goal: int) -> None:
         super().__init__(initial)
         self.goal = goal
 
-    def actions(self, state):
+    def actions(self, state: BinaryTreeNode) -> Generator[BinaryTreeNode, None, None]:
         left = state.left
         right = state.right
         if left:
@@ -37,14 +44,14 @@ class UsersProblem(Problem):
         if right:
             yield right
 
-    def result(self, state, action):
+    def result(self, state: BinaryTreeNode, action: BinaryTreeNode) -> BinaryTreeNode:
         return action
 
-    def is_goal(self, state):
+    def is_goal(self, state: BinaryTreeNode) -> bool:
         return state.value == self.goal
 
 
-def solve(root, goal):
+def solve(root: BinaryTreeNode, goal: int) -> Any:
     problem = UsersProblem(root, goal)
     return iterative_deepening_search(problem)
 

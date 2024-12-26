@@ -15,6 +15,7 @@ flake8 = "^7.0.0"
 isort = "^5.13.2"
 pre-commit = "^3.7.0"
 flake8-pyproject = "^1.2.3"
+mypy = "^1.14.0"
 
 [build-system]
 requires = ["poetry-core"]
@@ -35,6 +36,11 @@ extend-exclude = '__pycache__'
 [tool.isort]
 profile = "black"
 skip = '__pycache__'
+
+[tool.mypy]
+strict = true
+allow_untyped_calls = true
+ignore_missing_imports = true
 
 [tool.ruff]
 exclude = [

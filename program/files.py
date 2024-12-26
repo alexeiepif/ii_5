@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+from typing import Generator
+
 from tree import Problem, iterative_deepening_search, path_states
 
 # Рассмотрим задачу поиска информации в иерархических структурах данных,
@@ -16,37 +18,37 @@ from tree import Problem, iterative_deepening_search, path_states
 
 
 class TreeNode:
-    def __init__(self, value):
+    def __init__(self, value: str) -> None:
         self.value = value
-        self.children = []
+        self.children: list["TreeNode"] = []
 
-    def add_child(self, child):
+    def add_child(self, child: "TreeNode") -> None:
         self.children.append(child)
 
-    def add_children(self, *args):
+    def add_children(self, *args: "TreeNode") -> None:
         for child in args:
             self.add_child(child)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"<{self.value}>"
 
 
 class FileSearchProblem(Problem):
-    def __init__(self, initial, goal):
+    def __init__(self, initial: TreeNode, goal: str) -> None:
         super().__init__(initial)
         self.goal = goal
 
-    def actions(self, state):
+    def actions(self, state: TreeNode) -> Generator[TreeNode, None, None]:
         yield from state.children
 
-    def result(self, state, action):
+    def result(self, state: TreeNode, action: TreeNode) -> TreeNode:
         return action
 
-    def is_goal(self, state):
+    def is_goal(self, state: TreeNode) -> bool:
         return state.value == self.goal
 
 
-def solve(root, goal):
+def solve(root: TreeNode, goal: str) -> str:
     problem = FileSearchProblem(root, goal)
     r = iterative_deepening_search(problem)
     if not r:

@@ -49,7 +49,7 @@ class Tree:
         footer += f"{Fore.GREEN}Files: {self.file_count}{Style.RESET_ALL}"
         return header + body + footer
 
-    def generate_random_content(self, size=50):
+    def generate_random_content(self, size: int = 50) -> str:
         """Генерирует случайное содержимое файла."""
         return "".join(random.choices(string.ascii_letters + string.digits, k=size))
 
@@ -58,7 +58,7 @@ class Tree:
     ) -> None:
         """Создаёт синтетическое дерево файлов."""
 
-        content_pool = []
+        content_pool: list[str] = []
 
         def add_children(node: Path, current_depth: int, sw: bool = True) -> None:
             if current_depth >= depth or self.file_count + self.dir_count >= 300:
